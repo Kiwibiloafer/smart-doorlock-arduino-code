@@ -108,16 +108,17 @@ void loop() {
     activateDoorUnlock();
   }
 
-  if (digitalRead(doorSensor) == LOW) {
-    activateBuzzerSingle();
+  while (digitalRead(doorSensor) == LOW) {
     Serial.println("Door is open!");
-    writeCondition(true);
-    if (digitalRead(doorSensor) == HIGH) {
-      activateBuzzerSingle();
-      Serial.println("Door is close!");
-      writeCondition(false);
+    writeCondition(true); 
+    while (digitalRead(doorSensor) == LOW) {
     }
-  }
+    if (digitalRead(doorSensor) == HIGH) {
+        Serial.println("Door is close!");
+        writeCondition(false); // Tulis kondisi pintu tertutup
+    }
+}
+  
 
   char key = keypad.getKey();
   if (key) {
@@ -159,6 +160,7 @@ void loop() {
       Serial.println("Intruder alert: You are an intruder!");
     }
   }
+  delay(1000);
 }
 
 // **FETCH FIREBASE TO OPEN DOOR**
@@ -211,7 +213,7 @@ void activateDoorUnlock() {
   doorUnlockActive = true;
   doorUnlockStartMillis = currentMillis;
   digitalWrite(buzzerPin, HIGH);
-  digitalWrite(relayPin, HIGH);
+  digitalWrite(relayPin, LOW);
   Serial.println("Door Unlocked: Access Granted!");
 }
 
@@ -221,7 +223,7 @@ void updateDoorUnlock() {
     if (elapsed >= 1000 && elapsed < 2000) {
       digitalWrite(buzzerPin, LOW);
     } else if (elapsed >= 3000) {
-      digitalWrite(relayPin, LOW);
+      digitalWrite(relayPin, HIGH);
       doorUnlockActive = false;
     }
   }
