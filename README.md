@@ -33,3 +33,11 @@ Proyek ini merupakan bagian dari sistem kunci pintu pintar berbasis IoT yang men
 - Pastikan koneksi internet stabil untuk ESP32 jika menggunakan Firebase.
 - Jaga kerahasiaan file `secrets.h`.
 - Uji setiap komponen secara terpisah sebelum integrasi.
+---
+
+## 🖼️ Circuit Diagram
+
+![Alt text](Rangkaian.png)
+
+---
+
